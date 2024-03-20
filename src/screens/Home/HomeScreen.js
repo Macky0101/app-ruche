@@ -1,13 +1,183 @@
-import React from 'react';
-import { View, Text } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, SafeAreaView, TouchableOpacity, FlatList, ScrollView, Modal, TextInput, KeyboardAvoidingView, Platform } from 'react-native';
+import { Tab, TabView } from '@rneui/themed';
+import styles from './style';
+import { useNavigation } from '@react-navigation/native';
+import BarChartVerticalWithLabels from './Barchart';
+import PieChartWithDynamicSlices from './circularbar'
+import BarChartVertical1 from './BarChart1';
 
 const HomeScreen = () => {
-  return (
-    <View>
-      <Text>Accueil</Text>
-      {/* Contenu de l'écran d'accueil */}
-    </View>
-  );
-};
+  const navigation = useNavigation();
+  const [index, setIndex] = useState(0);
+  const [index1, setIndex1] = useState(0);
+  const tabContents = {
+    initial_2021: "Contenu de l'onglet 'Recent'",
+    initial_2022: "Contenu de l'onglet 'Favorite'",
+    initial_2023: "Contenu de l'onglet 'Cart'",
+    initial_2024: "Contenu de l'onglet 'Cart'",
+    initial_2025: "Contenu de l'onglet 'Cart'",
+  };
+  const tabTitles = Object.keys(tabContents);
+  const tabContents1 = {
+    initial_2021: "Contenu de l'onglet 'Recent'",
+    initial_2022: "Contenu de l'onglet 'Favorite'",
+    initial_2023: "Contenu de l'onglet 'Cart'",
+    initial_2024: "Contenu de l'onglet 'Cart'",
+    initial_2025: "Contenu de l'onglet 'Cart'",
+  };
+  const tabTitles1 = Object.keys(tabContents1);
+  const getColorByPercentage = (percentage) => {
+    if (percentage >= 70) {
+      return '#009900';
+    } else if (percentage >= 30) {
+      return '#ffff00';
+    } else {
+      return '#ff0000';
+    }
+  };
 
+  const data = [
+    {
+      id: '1', title: '27: Nombre de groupes soutenus dans la gestion durable des ressources naturelles et des risques liés au climat* (3.1.1) (Nbre)',
+      total: 'Total Prévu :  730',
+      totalP: 'Total : 18000',
+      percentage: 80,
+    },
+    {
+      id: '2', title: '27: Nombre de groupes soutenus dans la gestion durable des ressources naturelles et des risques liés au climat* (3.1.1) (Nbre)',
+      total: 'Total Prévu :  730',
+      totalP: 'Total : 18000',
+      percentage: 29,
+    },
+  ];
+
+  const renderItem = ({ item }) => (
+    <TouchableOpacity style={styles.itemContainer}>
+      <View>
+        <View style={styles.item}>
+          <Text style={styles.itemTitle} numberOfLines={5} ellipsizeMode="tail">{item.title}</Text>
+          <Text style={styles.total}>{item.total}</Text>
+          <Text style={styles.totalP}>{item.totalP}</Text>
+          <View style={styles.progressBar}>
+            <View style={[styles.progressBarValueWrap, { width: `${item.percentage}%`, backgroundColor: getColorByPercentage(item.percentage) }]}>
+              <Text style={styles.progressBarValue}>{item.percentage}%</Text>
+            </View>
+          </View>
+        </View>
+      </View>
+    </TouchableOpacity>
+  );
+
+  return (
+    <SafeAreaView style={styles.safeAreaView}>
+      <ScrollView style={styles.base}>
+        {/* En-tête de la section Projets */}
+        <View style={styles.sectionHeading}>
+          <View style={styles.sectionHeadingMain}>
+            <Text style={styles.sectionHeadingText} numberOfLines={1}>
+              Projets
+            </Text>
+          </View>
+        </View>
+
+        {/* Section des Réalisations */}
+        <Text style={styles.realis}>
+          Réalisations
+        </Text>
+        <View>
+          <FlatList
+            style={{ marginBottom: 10 }}
+            data={data}
+            keyExtractor={(item) => item.id}
+            renderItem={renderItem}
+            horizontal
+            showsHorizontalScrollIndicator={false}
+          />
+        </View>
+       <View>
+  <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
+  <Tab
+        value={index}
+        onChange={(e) => setIndex(e)}
+        indicatorStyle={{
+          height: 3,
+        }}
+        variant="primary"
+      >
+        {tabTitles.map((title, tabIndex) => (
+          <Tab.Item
+            key={tabIndex}
+            title={title}
+            titleStyle={{ fontSize: 14 }}
+            onPress={() => setIndex(tabIndex)}
+            containerStyle={{ backgroundColor: '#009900' }} 
+          />
+        ))}
+      </Tab>
+  </ScrollView>
+      <TabView value={index} onChange={setIndex} animationType="spring" >
+      {tabTitles.map((title, tabIndex) => (
+        <TabView.Item key={tabIndex} style={{ width: '100%' }}>
+          <View >
+             <View>
+                <Text style={styles.realis}>PTBA révisée par  composante </Text>
+                  <BarChartVerticalWithLabels/>
+              </View>
+              {/* <Text>{tabContents[title]}</Text> */}
+          </View>
+        </TabView.Item>
+      ))}
+    </TabView>
+       </View>
+      <View style={{marginBottom:200}}></View>
+        <View  style={{marginBottom:20}}>
+            <Text style={styles.realis}>Part de décaissement par année </Text>
+        </View>
+        <View style={{marginBottom:20}}>
+          <PieChartWithDynamicSlices/>
+        </View>  
+        <View style={{marginBottom:20}}>
+           <Text style={styles.realis}>Exécutions globale PTBA Initiale </Text>
+        </View> 
+    {/* dexieme partie */}
+    <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
+    <Tab
+          value={index1}
+          onChange={(e) => setIndex1(e)}
+          indicatorStyle={{
+            height: 3,
+          }}
+          variant="primary"
+        >
+          {tabTitles1.map((title, tabIndex) => (
+            <Tab.Item
+              key={tabIndex}
+              title={title}
+              titleStyle={{ fontSize: 14 }}
+              onPress={() => setIndex1(tabIndex)}
+              containerStyle={{ backgroundColor: '#009900' }} 
+            />
+        ))}
+      </Tab>
+  </ScrollView>
+        <TabView value={index1} onChange={setIndex1} animationType="spring" >
+      {tabTitles.map((title, tabIndex) => (
+        <TabView.Item key={tabIndex} style={{ width: '100%' }}>
+          <View >
+             <View>
+                <Text >PTBA révisée par  composante </Text>
+                  <BarChartVertical1/>
+              </View>
+              {/* <Text>{tabContents[title]}</Text> */}
+          </View>
+        </TabView.Item>
+      ))}
+    </TabView>
+    <View style={{marginBottom:200}}></View>
+      </ScrollView>
+    </SafeAreaView>
+  );
+
+};
 export default HomeScreen;

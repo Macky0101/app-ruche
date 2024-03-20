@@ -1,5 +1,7 @@
 
 import HomeScreen from './HomeScreen';
+import PTBAScrenn from '../SuiviPTBA/PTBAScreen';
+import MissionSup from '../MissionSup/MissionSupervScreen';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
@@ -9,9 +11,9 @@ function BottomTabNavigator () {
   return (
     <Tab.Navigator
       initialRouteName="Feed"
-      activeColor="#e91e63"
-      barStyle={{ backgroundColor: 'tomato' }}
-    >
+      activeColor="#009900"
+      barStyle={{ backgroundColor: 'rgba(255, 255, 255, 0.3)' }}
+    > 
       <Tab.Screen
         name="HomeScreen"
         component={HomeScreen}
@@ -22,26 +24,27 @@ function BottomTabNavigator () {
           ),
         }}
       />
-      {/* <Tab.Screen
-        name="Notifications"
-        component={Notifications}
+      <Tab.Screen
+        name="PTBAScrenn"
+        component={PTBAScrenn}
         options={{
-          tabBarLabel: 'Updates',
+          tabBarLabel: 'Suivi',
           tabBarIcon: ({ color }) => (
-            <MaterialCommunityIcons name="bell" color={color} size={26} />
+            <MaterialCommunityIcons name="timeline" color={color} size={26} />
           ),
         }}
       />
       <Tab.Screen
-        name="Profile"
-        component={Profile}
+        name="Mission"
+        component={MissionSup}
         options={{
-          tabBarLabel: 'Profile',
+          tabBarLabel: 'Mission',
           tabBarIcon: ({ color }) => (
-            <MaterialCommunityIcons name="account" color={color} size={26} />
+            <MaterialCommunityIcons name="target" color={color} size={26} />
+            // <MaterialCommunityIcons name="account" color={color} size={26} />
           ),
         }}
-      /> */}
+      />
     </Tab.Navigator>
   );
 }
