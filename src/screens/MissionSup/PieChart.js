@@ -1,62 +1,72 @@
-import React from 'react';
-import {
-  Text,
-  View,
-  Dimensions
-} from 'react-native';
-import { PieChart } from 'react-native-svg-charts'
-
- class PieChartWithDynamicSlices extends React.PureComponent {
-
-  constructor(props) {
-    super(props);
-    this.state = {
-      selectedSlice: {
-        label: '',
-        value: 0
-      },
-      labelWidth: 0
-    }
-  }
-  render() {
-    const { labelWidth, selectedSlice } = this.state;
-    const { label, value } = selectedSlice;
-    const keys = ['En cours', 'Nom Entame', 'Nom Execute', 'Realise'];
-    const values = [15, 25, 35, 45];
-    const colors = ['#600080', '#9900cc', '#c61aff', '#d966ff']
-    const data = keys.map((key, index) => {
-        return {
-          key,
-          value: values[index],
-          svg: { fill: colors[index] },
-          arc: { outerRadius: (70 + values[index]) + '%', padAngle: label === key ? 0.1 : 0 },
-          onPress: () => this.setState({ selectedSlice: { label: key, value: values[index] } })
+import { View, Text } from 'react-native'
+import React from 'react'
+import { Dimensions } from "react-native";
+import {PieChart} from "react-native-chart-kit";
+import * as Animatable from 'react-native-animatable';
+const Circular = () => {
+    const screenWidth = Dimensions.get("window").width;
+    const chartConfig = {
+        backgroundGradientFrom: "#1E2923",
+        backgroundGradientFromOpacity: 0,
+        backgroundGradientTo: "#1E2923",
+        backgroundGradientToOpacity: 0.5,
+        color: (opacity = 1) => `rgba(26, 255, 146, ${opacity})`,
+        strokeWidth: 2, // optional, default 3
+        barPercentage: 0.5,
+        useShadowColorFromDataset: false // optional
+      };
+      const data = [
+        {
+          name: "Seoul",
+          population: 2150,
+          color: "rgba(131, 167, 234, 1)",
+          legendFontColor: "#7F7F7F",
+          legendFontSize: 12
+        },
+        {
+          name: "Toronto",
+          population: 2800,
+          color: "#F00",
+          legendFontColor: "#7F7F7F",
+          legendFontSize: 12
+        },
+        {
+          name: "Beijing",
+          population: 3276,
+          color: "red",
+          legendFontColor: "#7F7F7F",
+          legendFontSize: 12
+        },
+        {
+          name: "New York",
+          population: 1538,
+          color: "#dddddd",
+          legendFontColor: "#7F7F7F",
+          legendFontSize: 12
+        },
+        {
+          name: "Moscow",
+          population: 1192,
+          color: "rgb(0, 0, 255)",
+          legendFontColor: "#7F7F7F",
+          legendFontSize: 12
         }
-      })
-    const deviceWidth = Dimensions.get('window').width
-
-    return (
-      <View style={{ justifyContent: 'center' }}>
-        <PieChart
-          style={{ height: 300 }}
-          outerRadius={'80%'}
-          innerRadius={'45%'}
-          data={data}
-        />
-        <Text
-          onLayout={({ nativeEvent: { layout: { width } } }) => {
-            this.setState({ labelWidth: width });
-          }}
-          style={{
-            position: 'absolute',
-            left: deviceWidth / 2 - labelWidth / 2,
-            textAlign: 'center'
-          }}>
-          {`${label} \n ${value}`}
-        </Text>
-      </View>
-    )
-  }
+      ];
+  return (
+    <Animatable.View animation="fadeInUpBig" duration={1500} >
+      <PieChart
+        data={data}
+        width={screenWidth}
+        height={220}
+        chartConfig={chartConfig}
+        accessor={"population"}
+        backgroundColor={"transparent"}
+        paddingLeft={"15"}
+        // center={[10, 50]}
+        absolute
+      />
+    </Animatable.View>
+  )
 }
 
-export default PieChartWithDynamicSlices;
+export default Circular

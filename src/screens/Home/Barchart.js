@@ -1,50 +1,47 @@
-import React from 'react';
-import { View } from 'react-native';
-import { BarChart, Grid } from 'react-native-svg-charts';
-import { Text } from 'react-native-svg';
+import { View, Text } from 'react-native'
+import React from 'react'
+import { Dimensions } from "react-native";
+import {BarChart} from "react-native-chart-kit";
 import * as Animatable from 'react-native-animatable';
 
-class BarChartVerticalWithLabels extends React.PureComponent {
+const graphStyle = {
+  marginVertical: 0,
+  
+};
 
-    render() {
-
-        const data = [10, 5, 25, 15, 20];
-
-        const CUT_OFF = 20;
-        const Labels = ({ x, y, bandwidth, data }) => (
-            data.map((value, index) => (
-                <Text
-                    key={index}
-                    x={x(index) + (bandwidth / 2)}
-                    y={value < CUT_OFF ? y(value) - 10 : y(value) + 15}
-                    fontSize={14}
-                    fill={value >= CUT_OFF ? 'white' : 'black'}
-                    alignmentBaseline={'middle'}
-                    textAnchor={'middle'}
-                >
-                    {value}
-                </Text>
-            ))
-        );
-
-        return (
-            <View style={{ flexDirection: 'row', height: 200, paddingVertical: 16 }}>
-                <BarChart
-                    style={{ flex: 1 }}
-                    data={data}
-                    svg={{ fill: 'rgba(134, 65, 244, 0.8)' }}
-                    contentInset={{ top: 10, bottom: 10 }}
-                    spacing={0.1}
-                    gridMin={0}
-                    animate={true}
-                    animationDuration={200}
-                >
-                    <Grid direction={Grid.Direction.HORIZONTAL} />
-                    <Labels />
-                </BarChart>
-            </View>
-        );
-    }
+const Barcharts = () => {
+    const screenWidth = Dimensions.get("window").width;
+    const chartConfig = {
+        background: "#ffffff",
+        backgroundGradientFromOpacity: 0,
+        backgroundGradientTo: "#ffffff",
+        backgroundGradientToOpacity: 1,
+        color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+        strokeWidth: 2, // optional, default 3
+        barPercentage: 0.5,
+        useShadowColorFromDataset: false // optional
+      };
+    const data = {
+        labels: ["January", "February", "March", "April", "May", "June"],
+        datasets: [
+          {
+            data: [20, 45, 28, 80, 99, 43]
+          }
+        ]
+      };
+  return (
+    <Animatable.View animation="fadeInUpBig" duration={1500}>
+      <BarChart
+        style={graphStyle}
+        data={data}
+        width={screenWidth}
+        height={220}
+        yAxisLabel="$"
+        chartConfig={chartConfig}
+        verticalLabelRotation={30}
+        />
+    </Animatable.View>
+  )
 }
 
-export default BarChartVerticalWithLabels;
+export default Barcharts

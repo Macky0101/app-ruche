@@ -6,7 +6,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import SelectDropdown from 'react-native-select-dropdown';
 import ProgressCircle from 'react-native-progress-circle';
 import { MaterialCommunityIcons } from '@expo/vector-icons'; 
-import PieCharts from './PieChart';
+import Circular from './PieChart';
 import { useNavigation } from '@react-navigation/native';
 
 
@@ -34,7 +34,7 @@ const MissionSup = () => {
         <Icon name="close" size={30} color="#000" />  
      </TouchableOpacity>
      <Text style={styles.ModalTitle}>Graphique par Conventions</Text>
-     <PieCharts/>
+     <Circular/>
      </View>
     </Modal>
   );

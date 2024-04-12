@@ -146,7 +146,7 @@ const styles = StyleSheet.create({
       },
       TextBtn:{
         textAlign: 'center',
-        fontSize:20,
+        fontSize:10,
         color: 'white',
       }
 });

@@ -26,9 +26,6 @@ const HomeScreen = () => {
     initial_2025: "Contenu de l'onglet 'Cart'",
   };
   const tabTitles1 = Object.keys(tabContents1);
-
-
-
   const getColorByPercentage = (percentage) => {
     if (percentage >= 70) {
       return '#009900';
@@ -38,6 +35,7 @@ const HomeScreen = () => {
       return '#ff0000';
     }
   };
+
   const data = [
     {
       id: '1', title: '27: Nombre de groupes soutenus dans la gestion durable des ressources naturelles et des risques liés au climat* (3.1.1) (Nbre)',
@@ -52,6 +50,7 @@ const HomeScreen = () => {
       percentage: 29,
     },
   ];
+
   const renderItem = ({ item }) => (
     <TouchableOpacity style={styles.itemContainer}>
       <View>
@@ -68,16 +67,20 @@ const HomeScreen = () => {
       </View>
     </TouchableOpacity>
   );
+
   return (
-   <SafeAreaView style={styles.safeAreaView}>
-      <ScrollView>
-      <View style={styles.sectionHeading}>
+    <SafeAreaView style={styles.safeAreaView}>
+      <ScrollView style={styles.base}>
+        {/* En-tête de la section Projets */}
+        <View style={styles.sectionHeading}>
           <View style={styles.sectionHeadingMain}>
             <Text style={styles.sectionHeadingText} numberOfLines={1}>
               Projets
             </Text>
           </View>
         </View>
+
+        {/* Section des Réalisations */}
         <Text style={styles.realis}>
           Réalisations
         </Text>
@@ -91,16 +94,16 @@ const HomeScreen = () => {
             showsHorizontalScrollIndicator={false}
           />
         </View>
-     <View>
-     <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
-        <Tab
-          value={index}
-          onChange={(e) => setIndex(e)}
-          indicatorStyle={{
-            height: 3,
-          }}
-          variant="primary"
-        >
+       <View>
+  <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
+  <Tab
+        value={index}
+        onChange={(e) => setIndex(e)}
+        indicatorStyle={{
+          height: 3,
+        }}
+        variant="primary"
+      >
         {tabTitles.map((title, tabIndex) => (
           <Tab.Item
             key={tabIndex}
@@ -110,30 +113,34 @@ const HomeScreen = () => {
             containerStyle={{ backgroundColor: '#009900' }} 
           />
         ))}
-        </Tab>
-      </ScrollView>
+      </Tab>
+  </ScrollView>
       <TabView value={index} onChange={setIndex} animationType="spring" >
-        {tabTitles.map((title, tabIndex) => (
-          <TabView.Item key={tabIndex} style={{ width: '100%' }}>
-            <View >
-              <View>
-                  <Text style={styles.realis}>PTBA révisée par  composante </Text>
-                    <Barcharts/>
-                </View>
-                {/* <Text>{tabContents[title]}</Text> */}
-            </View>
-          </TabView.Item>
-        ))}
-      </TabView>
-     </View>
-     <View style={{marginBottom:250}}></View>
-    <View style={{marginBottom:20}}>
-          <Text style={styles.realis}>Part de décaissement par année </Text>
-    </View>
-    <View style={{marginBottom:20}}>
+      {tabTitles.map((title, tabIndex) => (
+        <TabView.Item key={tabIndex} style={{ width: '100%' }}>
+          <View >
+             <View>
+                <Text style={styles.realis}>PTBA révisée par  composante </Text>
+                  <Barcharts/>
+              </View>
+              {/* <Text>{tabContents[title]}</Text> */}
+          </View>
+        </TabView.Item>
+      ))}
+    </TabView>
+       </View>
+      <View style={{marginBottom:200}}></View>
+        <View  style={{marginBottom:20}}>
+            <Text style={styles.realis}>Part de décaissement par année </Text>
+        </View>
+        <View style={{marginBottom:20}}>
          <Circular/>
+        </View>  
+        <View style={{marginBottom:20}}>
+           <Text style={styles.realis}>Exécutions globale PTBA Initiale </Text>
         </View> 
-        <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
+    {/* dexieme partie */}
+    <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
     <Tab
           value={index1}
           onChange={(e) => setIndex1(e)}
@@ -159,19 +166,17 @@ const HomeScreen = () => {
           <View >
              <View>
                 <Text >PTBA révisée par  composante </Text>
-                <View style={{marginTop:10}}>
                 <Barcharts/>
-                </View>
               </View>
               {/* <Text>{tabContents[title]}</Text> */}
           </View>
         </TabView.Item>
       ))}
     </TabView>
-    <View style={{marginBottom:230}}></View>
+    <View style={{marginBottom:200}}></View>
       </ScrollView>
-   </SafeAreaView>
-  )
-}
+    </SafeAreaView>
+  );
 
-export default HomeScreen
+};
+export default HomeScreen;
